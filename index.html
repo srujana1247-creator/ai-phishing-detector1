@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhishGuard Pro | Neural Defense</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @keyframes drift {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .anti-gravity {
+            animation: drift 10s ease-in-out infinite;
+        }
+
+        .glass {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-[#020617] text-slate-200 overflow-x-hidden font-sans">
+
+    <nav class="h-24 max-w-7xl mx-auto px-8 flex items-center justify-between relative z-50">
+        <div class="flex items-center gap-4">
+            <div
+                class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/20 anti-gravity">
+                <i data-lucide="shield" class="text-white"></i>
+            </div>
+            <h1 class="text-2xl font-black tracking-tighter text-white">PHISHGUARD <span
+                    class="text-blue-500">PRO</span></h1>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        <div class="grid lg:grid-cols-12 gap-12">
+
+            <div class="lg:col-span-7">
+                <div class="glass rounded-[3rem] p-10 shadow-2xl">
+                    <h2 class="text-blue-400 text-[10px] font-black uppercase tracking-[0.3em] mb-6">Neural Scanner
+                        Input</h2>
+                    <textarea id="main-input" placeholder="Enter URL to analyze (e.g., https://google.com)..."
+                        class="w-full h-48 bg-transparent border-none text-2xl text-white placeholder:text-slate-700 focus:ring-0 resize-none font-light italic"></textarea>
+
+                    <button onclick="startAnalysis()"
+                        class="mt-8 w-full bg-white text-slate-950 py-5 rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all">
+                        Execute Real-Time Scan
+                    </button>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5">
+                <div id="result-display"
+                    class="glass rounded-[3rem] p-10 min-h-[400px] flex flex-col items-center justify-center text-center border-dashed border-2 border-slate-800">
+                    <div id="idle-state">
+                        <i data-lucide="target" class="text-slate-700 w-16 h-16 mb-4 mx-auto"></i>
+                        <p class="text-slate-500 font-bold uppercase text-xs tracking-widest">Awaiting Payload</p>
+                    </div>
+
+                    <div id="loading-state" class="hidden">
+                        <div
+                            class="w-16 h-16 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin mb-4">
+                        </div>
+                        <p class="text-blue-500 font-bold animate-pulse">Analyzing Streams...</p>
+                    </div>
+
+                    <div id="data-state" class="hidden w-full text-left">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <span id="res-status"
+                                    class="text-[10px] font-black px-3 py-1 rounded-full uppercase"></span>
+                                <h3 id="res-score" class="text-6xl font-black text-white mt-2">0%</h3>
+                            </div>
+                            <div id="res-icon" class="p-4 rounded-2xl"></div>
+                        </div>
+                        <div class="h-2 w-full bg-slate-800 rounded-full mb-8 overflow-hidden">
+                            <div id="res-bar" class="h-full transition-all duration-1000 w-0"></div>
+                        </div>
+                        <ul id="res-reasons" class="space-y-3 text-sm text-slate-400"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
