@@ -1,12 +1,15 @@
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 1. PASTE YOUR KEY FROM THE WEBSITE BELOW
+// Serve static files (index.html, script.js) from the project root folder
+app.use(express.static(path.join(__dirname, '..')));
+
 const API_KEY = 'dh6vnKYWxlD4nDIkYr632MkammIrKbTO';
 
 app.post('/api/scan', async (req, res) => {
@@ -14,11 +17,9 @@ app.post('/api/scan', async (req, res) => {
     console.log(`Scanning URL: ${url}`);
 
     try {
-        // This line sends the URL to the IPQualityScore "Brain"
         const response = await axios.get(`https://www.ipqualityscore.com/api/json/url/${API_KEY}/${encodeURIComponent(url)}`);
         const data = response.data;
 
-        // This sends the real-time data back to your website UI
         res.json({
             status: data.unsafe ? 'PHISHING' : 'SAFE',
             score: data.risk_score || 0,
@@ -37,9 +38,11 @@ app.post('/api/scan', async (req, res) => {
     }
 });
 
-app.listen(3001, () => {
+// Use PORT env variable for Render deployment, fallback to 3001 for local dev
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
     console.log('------------------------------------');
     console.log('🚀 PHISHGUARD BACKEND STARTING...');
-    console.log('📡 Listening on http://localhost:3001');
+    console.log(`📡 Listening on port ${PORT}`);
     console.log('------------------------------------');
 });
